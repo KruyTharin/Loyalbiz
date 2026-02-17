@@ -1,0 +1,89 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model Business {
+  id        String   @id @default(cuid())
+  name      String
+  ownerName String?
+  email     String?  @unique
+  logoUrl   String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  customers   CustomerBusiness[]
+  rewardRules RewardRule[]
+  visits      Visit[]
+  redemptions Redemption[]
+}
+
+model Customer {
+  id        String   @id @default(cuid())
+  phone     String   @unique
+  name      String?
+  email     String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  businesses  CustomerBusiness[]
+  visits      Visit[]
+  redemptions Redemption[]
+}
+
+model CustomerBusiness {
+  id          String   @id @default(cuid())
+  customerId  String
+  businessId  String
+  stamps      Int      @default(0)
+  totalVisits Int      @default(0)
+  lastVisit   DateTime @updatedAt
+
+  customer Customer @relation(fields: [customerId], references: [id])
+  business Business @relation(fields: [businessId], references: [id])
+
+  @@unique([customerId, businessId])
+}
+
+model RewardRule {
+  id             String   @id @default(cuid())
+  businessId     String
+  title          String
+  description    String?
+  stampsRequired Int
+  isActive       Boolean  @default(true)
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  business Business @relation(fields: [businessId], references: [id])
+}
+
+model Visit {
+  id           String   @id @default(cuid())
+  customerId   String
+  businessId   String
+  stampsEarned Int      @default(1)
+  createdAt    DateTime @default(now())
+
+  customer Customer @relation(fields: [customerId], references: [id])
+  business Business @relation(fields: [businessId], references: [id])
+}
+
+model Redemption {
+  id          String   @id @default(cuid())
+  customerId  String
+  businessId  String
+  rewardTitle String
+  stampsUsed  Int
+  createdAt   DateTime @default(now())
+
+  customer Customer @relation(fields: [customerId], references: [id])
+  business Business @relation(fields: [businessId], references: [id])
+}
