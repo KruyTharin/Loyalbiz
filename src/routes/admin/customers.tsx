@@ -131,7 +131,7 @@ function CustomersPage() {
 
   return (
     <AdminLayout>
-      <div className="p-6 md:p-10 space-y-6 max-w-7xl mx-auto">
+      <div className="p-6 md:p-10 space-y-8 max-w-7xl mx-auto">
         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
           <h1 className="text-3xl font-bold tracking-tight">Customers</h1>
           <Button size="md" className="w-full sm:w-auto">

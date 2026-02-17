@@ -13,7 +13,7 @@ function CustomerRewardsPage() {
 
   return (
     <CustomerLayout>
-      <div className="p-6 space-y-8 bg-neutral-50 min-h-full pb-24">
+      <div className="p-6 space-y-8 bg-neutral-50 min-h-full pb-32">
         <div>
           <h2 className="text-3xl font-bold tracking-tight">Gifts & Deals</h2>
           <p className="text-neutral-500 font-medium mt-1">
@@ -46,7 +46,7 @@ function CustomerRewardsPage() {
         </div>
 
         {/* Rewards List */}
-        <div className="space-y-6">
+        <div className="space-y-8">
           <section className="space-y-4">
             <h3 className="text-sm font-bold uppercase tracking-widest text-neutral-400 px-1">
               Available to Redeem

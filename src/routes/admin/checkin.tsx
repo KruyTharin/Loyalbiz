@@ -84,13 +84,13 @@ function AdminCheckin() {
     handleCheckin(decodedText);
   }
 
-  function onScanFailure(error: any) {
+  function onScanFailure() {
     // We can ignore failures, they happen constantly during scanning
   }
 
   return (
     <AdminLayout>
-      <div className="p-6 md:p-10 max-w-2xl mx-auto space-y-8">
+      <div className="p-6 md:p-10 max-w-7xl mx-auto space-y-8">
         <div className="flex items-center gap-4">
           <Button
             variant="ghost"

@@ -115,9 +115,6 @@ admin.post("/checkin", async (c) => {
   }
 });
 
-// ... (existing imports)
-// ... (existing imports)
-
 // Admin Login
 app.post("/admin/login", async (c) => {
   const { passcode } = await c.req.json();
@@ -137,5 +134,44 @@ app.post("/admin/login", async (c) => {
 
   return c.json({ success: true, businessId: business.id });
 });
+
+// Public Route: Fetch customer details by phone (for dashboard)
+app.get("/customer/:phone", async (c) => {
+  const phone = c.req.param("phone");
+  try {
+    // We use upsert to ensure the customer exists when they visit their dashboard
+    // This provides a "just-in-time" registration for users who sign in via phone
+    const customer = await prisma.customer.upsert({
+      where: { phone },
+      update: {},
+      create: {
+        phone,
+        name: "New Customer",
+      },
+      include: {
+        businesses: {
+          include: {
+            business: true,
+          },
+        },
+        visits: {
+          orderBy: { createdAt: "desc" },
+          take: 10,
+          include: {
+            business: true,
+          },
+        },
+      },
+    });
+
+    return c.json(customer);
+  } catch (error) {
+    console.error(error);
+    return c.json({ error: "Failed to fetch customer" }, 500);
+  }
+});
+
+// Mount admin routes (protected)
+app.route("/", admin);
 
 export default app;

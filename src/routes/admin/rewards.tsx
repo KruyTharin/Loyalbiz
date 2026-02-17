@@ -2,15 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { AdminLayout } from "../../components/Layout";
 import { Card } from "../../components/ui/Card";
 import { Button } from "../../components/ui/Button";
-import {
-  Plus,
-  Gift,
-  Edit2,
-  Trash2,
-  ToggleRight,
-  CheckCircle2,
-  Circle,
-} from "lucide-react";
+import { Plus, Gift, Edit2, Trash2, CheckCircle2, Circle } from "lucide-react";
 
 export const Route = createFileRoute("/admin/rewards")({
   component: RewardsPage,

@@ -2,8 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { CustomerLayout } from "../components/Layout";
 import { Card } from "../components/ui/Card";
 import { QRCodeSVG } from "qrcode.react";
-import { Clock, Star, Gift, ChevronRight } from "lucide-react";
-import { Button } from "../components/ui/Button";
+import { Clock, Star, Gift } from "lucide-react";
 
 export const Route = createFileRoute("/dashboard")({
   component: DashboardPage,
@@ -52,7 +51,6 @@ function DashboardPage() {
   const currentBusiness = customer?.businesses?.[0];
   const points = currentBusiness?.stamps || 0;
   const maxPoints = 10;
-  const customerName = customer?.name || "Loyal Member";
 
   return (
     <CustomerLayout>

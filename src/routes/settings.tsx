@@ -1,10 +1,8 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { CustomerLayout } from "../components/Layout";
-import { Card } from "../components/ui/Card";
 import {
   Bell,
   Shield,
-  Moon,
   Globe,
   HelpCircle,
   Info,
@@ -18,7 +16,7 @@ export const Route = createFileRoute("/settings")({
 function SettingsPage() {
   return (
     <CustomerLayout>
-      <div className="p-6 space-y-8 bg-neutral-50 min-h-full pb-24">
+      <div className="p-6 space-y-8 bg-neutral-50 min-h-full pb-32">
         <div>
           <h2 className="text-3xl font-bold tracking-tight">Settings</h2>
           <p className="text-neutral-500 font-medium mt-1">

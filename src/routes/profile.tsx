@@ -2,7 +2,6 @@ import { createFileRoute } from "@tanstack/react-router";
 import { CustomerLayout } from "../components/Layout";
 import { Card } from "../components/ui/Card";
 import { Phone, Mail, Calendar, LogOut, ChevronRight } from "lucide-react";
-import { Button } from "../components/ui/Button";
 
 export const Route = createFileRoute("/profile")({
   component: ProfilePage,
@@ -11,7 +10,7 @@ export const Route = createFileRoute("/profile")({
 function ProfilePage() {
   return (
     <CustomerLayout>
-      <div className="p-6 space-y-8 bg-neutral-50 min-h-full pb-24">
+      <div className="p-6 space-y-8 bg-neutral-50 min-h-full pb-32">
         <div className="flex flex-col items-center py-6">
           <div className="w-24 h-24 bg-black text-white rounded-[2.5rem] flex items-center justify-center text-3xl font-bold mb-4 shadow-xl shadow-black/10">
             S

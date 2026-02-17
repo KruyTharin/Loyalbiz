@@ -7,7 +7,7 @@ import { prisma } from "./prisma";
 export const adminAuth = async (c: Context, next: Next) => {
   // 1. Check for API Key (for external tools or initial setup)
   const apiKey = c.req.header("x-admin-key");
-  if (apiKey === process.env.ADMIN_KEY) {
+  if (process.env.ADMIN_KEY && apiKey === process.env.ADMIN_KEY) {
     await next();
     return;
   }
