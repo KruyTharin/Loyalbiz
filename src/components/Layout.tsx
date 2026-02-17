@@ -12,6 +12,7 @@ import {
   ChevronLeft,
   ChevronRight,
   PanelLeft,
+  QrCode,
 } from "lucide-react";
 
 export function AdminLayout({ children }: { children: React.ReactNode }) {
@@ -71,6 +72,20 @@ export function AdminLayout({ children }: { children: React.ReactNode }) {
         <nav
           className={`flex-1 space-y-2 p-4 transition-all ${isCollapsed ? "px-3" : "px-6"}`}
         >
+          <div className="mb-6">
+            <SidebarLink
+              to="/admin/checkin"
+              icon={<QrCode size={20} />}
+              label="Check-in Terminal"
+              isCollapsed={isCollapsed}
+              onClick={() => setIsSidebarOpen(false)}
+              activeProps={{
+                className:
+                  "bg-black text-white shadow-lg shadow-black/20 font-bold",
+              }}
+            />
+          </div>
+
           <SidebarLink
             to="/admin"
             icon={<LayoutDashboard size={20} />}
@@ -144,12 +159,14 @@ function SidebarLink({
   label,
   isCollapsed,
   onClick,
+  activeProps,
 }: {
   to: string;
   icon: React.ReactNode;
   label: string;
   isCollapsed?: boolean;
   onClick?: () => void;
+  activeProps?: React.ComponentProps<typeof Link>["activeProps"];
 }) {
   return (
     <Link to={to} onClick={onClick} activeOptions={{ exact: true }}>

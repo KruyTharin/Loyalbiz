@@ -1,22 +1,19 @@
 import { Hono } from "hono";
 import { cors } from "hono/cors";
+import { setCookie } from "hono/cookie";
 import { prisma } from "./lib/prisma";
+import { adminAuth, loginValue } from "./lib/auth";
 
 const app = new Hono().basePath("/api");
 
 app.use("*", cors());
 
-// Health check
-app.get("/hello", (c) => {
-  return c.json({
-    message: "Loyalkh API Live",
-    version: "1.1.0",
-    prisma: "v7",
-  });
-});
+// Admin Routes group
+const admin = new Hono();
+admin.use("*", adminAuth);
 
 // Admin: Get Dashboard Stats
-app.get("/stats", async (c) => {
+admin.get("/stats", async (c) => {
   try {
     const totalCustomers = await prisma.customer.count();
     const totalVisits = await prisma.visit.count();
@@ -44,7 +41,7 @@ app.get("/stats", async (c) => {
 });
 
 // Admin: List all customers
-app.get("/customers", async (c) => {
+admin.get("/customers", async (c) => {
   try {
     const customers = await prisma.customer.findMany({
       include: {
@@ -60,32 +57,10 @@ app.get("/customers", async (c) => {
   }
 });
 
-// Public: Get customer by phone
-app.get("/customer/:phone", async (c) => {
-  const phone = c.req.param("phone");
-  try {
-    const customer = await prisma.customer.findUnique({
-      where: { phone },
-      include: {
-        businesses: {
-          include: {
-            business: true,
-          },
-        },
-      },
-    });
-
-    if (!customer) {
-      return c.json({ error: "Customer not found" }, 404);
-    }
-    return c.json(customer);
-  } catch (error) {
-    return c.json({ error: "Database error" }, 500);
-  }
-});
-
 // Admin/Public: Check-in (Add Stamp)
-app.post("/checkin", async (c) => {
+// Note: For now, we keep checkin public-ish but in real app it should be admin-only or signed
+// Moving to admin router to enforce auth for the merchant terminal
+admin.post("/checkin", async (c) => {
   const { phone, businessId } = await c.req.json();
 
   if (!phone || !businessId) {
@@ -138,6 +113,29 @@ app.post("/checkin", async (c) => {
     console.error(error);
     return c.json({ error: "Check-in failed" }, 500);
   }
+});
+
+// ... (existing imports)
+// ... (existing imports)
+
+// Admin Login
+app.post("/admin/login", async (c) => {
+  const { passcode } = await c.req.json();
+  const business = await loginValue(passcode);
+
+  if (!business) {
+    return c.json({ error: "Invalid passcode" }, 401);
+  }
+
+  setCookie(c, "admin_session", business.id, {
+    path: "/",
+    secure: process.env.NODE_ENV === "production",
+    httpOnly: true,
+    maxAge: 60 * 60 * 24 * 7, // 1 week
+    sameSite: "Lax",
+  });
+
+  return c.json({ success: true, businessId: business.id });
 });
 
 export default app;

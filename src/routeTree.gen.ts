@@ -20,6 +20,7 @@ import { Route as ApiSplatRouteImport } from './routes/api/$'
 import { Route as AdminSettingsRouteImport } from './routes/admin/settings'
 import { Route as AdminRewardsRouteImport } from './routes/admin/rewards'
 import { Route as AdminCustomersRouteImport } from './routes/admin/customers'
+import { Route as AdminCheckinRouteImport } from './routes/admin/checkin'
 
 const SettingsRoute = SettingsRouteImport.update({
   id: '/settings',
@@ -76,6 +77,11 @@ const AdminCustomersRoute = AdminCustomersRouteImport.update({
   path: '/admin/customers',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AdminCheckinRoute = AdminCheckinRouteImport.update({
+  id: '/admin/checkin',
+  path: '/admin/checkin',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -84,6 +90,7 @@ export interface FileRoutesByFullPath {
   '/profile': typeof ProfileRoute
   '/rewards': typeof RewardsRoute
   '/settings': typeof SettingsRoute
+  '/admin/checkin': typeof AdminCheckinRoute
   '/admin/customers': typeof AdminCustomersRoute
   '/admin/rewards': typeof AdminRewardsRoute
   '/admin/settings': typeof AdminSettingsRoute
@@ -97,6 +104,7 @@ export interface FileRoutesByTo {
   '/profile': typeof ProfileRoute
   '/rewards': typeof RewardsRoute
   '/settings': typeof SettingsRoute
+  '/admin/checkin': typeof AdminCheckinRoute
   '/admin/customers': typeof AdminCustomersRoute
   '/admin/rewards': typeof AdminRewardsRoute
   '/admin/settings': typeof AdminSettingsRoute
@@ -111,6 +119,7 @@ export interface FileRoutesById {
   '/profile': typeof ProfileRoute
   '/rewards': typeof RewardsRoute
   '/settings': typeof SettingsRoute
+  '/admin/checkin': typeof AdminCheckinRoute
   '/admin/customers': typeof AdminCustomersRoute
   '/admin/rewards': typeof AdminRewardsRoute
   '/admin/settings': typeof AdminSettingsRoute
@@ -126,6 +135,7 @@ export interface FileRouteTypes {
     | '/profile'
     | '/rewards'
     | '/settings'
+    | '/admin/checkin'
     | '/admin/customers'
     | '/admin/rewards'
     | '/admin/settings'
@@ -139,6 +149,7 @@ export interface FileRouteTypes {
     | '/profile'
     | '/rewards'
     | '/settings'
+    | '/admin/checkin'
     | '/admin/customers'
     | '/admin/rewards'
     | '/admin/settings'
@@ -152,6 +163,7 @@ export interface FileRouteTypes {
     | '/profile'
     | '/rewards'
     | '/settings'
+    | '/admin/checkin'
     | '/admin/customers'
     | '/admin/rewards'
     | '/admin/settings'
@@ -166,6 +178,7 @@ export interface RootRouteChildren {
   ProfileRoute: typeof ProfileRoute
   RewardsRoute: typeof RewardsRoute
   SettingsRoute: typeof SettingsRoute
+  AdminCheckinRoute: typeof AdminCheckinRoute
   AdminCustomersRoute: typeof AdminCustomersRoute
   AdminRewardsRoute: typeof AdminRewardsRoute
   AdminSettingsRoute: typeof AdminSettingsRoute
@@ -252,6 +265,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminCustomersRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/admin/checkin': {
+      id: '/admin/checkin'
+      path: '/admin/checkin'
+      fullPath: '/admin/checkin'
+      preLoaderRoute: typeof AdminCheckinRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -262,6 +282,7 @@ const rootRouteChildren: RootRouteChildren = {
   ProfileRoute: ProfileRoute,
   RewardsRoute: RewardsRoute,
   SettingsRoute: SettingsRoute,
+  AdminCheckinRoute: AdminCheckinRoute,
   AdminCustomersRoute: AdminCustomersRoute,
   AdminRewardsRoute: AdminRewardsRoute,
   AdminSettingsRoute: AdminSettingsRoute,

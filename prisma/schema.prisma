@@ -15,6 +15,7 @@ model Business {
   name      String
   ownerName String?
   email     String?  @unique
+  passcode  String? // Simple 4-6 digit PIN for MVP
   logoUrl   String?
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt

@@ -17,7 +17,9 @@ function LoginPage() {
     e.preventDefault();
     if (phone) {
       setIsLoading(true);
+      // Simulate network request
       setTimeout(() => {
+        localStorage.setItem("customer_phone", phone);
         navigate({ to: "/dashboard" });
       }, 800);
     }
